@@ -3,17 +3,30 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 
-namespace RxPlayground
+// ReSharper disable once CheckNamespace
+namespace System
 {
+	[Flags]
+	public enum Targets
+	{
+		Console = 0x01,
+		File = 0x02,
+		Default = Console | File,
+		All = Console | File,
+	}
+
 	public class Logging
 	{
 		public static Logger For(string name) => LogManager.LogFactory.GetLogger(name);
 
-		public static void ConfigureLogging(string folder, string productName)
+		public static void ConfigureLogging(
+			string folder, string productName, Targets targets = Targets.Default)
 		{
 			var config = new LoggingConfiguration();
-			ConfigureConsoleLogging(config);
-			ConfigureFileLogging(config, folder, productName);
+			if ((targets & Targets.Console) != 0)
+				ConfigureConsoleLogging(config);
+			if ((targets & Targets.File) != 0)
+				ConfigureFileLogging(config, folder, productName);
 			LogManager.Configuration = config;
 		}
 

@@ -5,4 +5,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\RxHelpers\RxHelpers.csproj" />
+  </ItemGroup>
 </Project>
